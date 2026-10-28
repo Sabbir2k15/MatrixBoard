@@ -70,11 +70,13 @@ object AvroTransliterator {
             for (l in 3 downTo 1) {
                 if (i + l > input.length) continue
                 val piece = input.substring(i, i + l)
-                vowels[piece]?.let { (ind, sign) ->
-                    matched = Phoneme(piece, ind, true, sign); len = l; break
+                val v = vowels[piece]
+                if (v != null) {
+                    matched = Phoneme(piece, v.first, true, v.second); len = l; break
                 }
-                consonants[piece]?.let { b ->
-                    matched = Phoneme(piece, b, false, null); len = l; break
+                val c = consonants[piece]
+                if (c != null) {
+                    matched = Phoneme(piece, c, false, null); len = l; break
                 }
             }
             if (matched == null) {
